@@ -89,7 +89,47 @@ X_tfidf_w2v = hstack ((product_tfidf_w2v_vectors,category_ohe,sub_category_ohe,b
              data['negative'].values.reshape(-1,1),data['neutral'].values.reshape(-1,1),data['positive'].values.reshape(-1,1), \
              data['compound'].values.reshape(-1,1),data['cluster_label'].values.reshape(-1,1))).tocsr()
 
+#defining main function to get similar products
 
+@st.cache
+def get_similar(prod_index,num_results):
+    # prod_index: product index in the given data
+    # num_results: number of similar products to show
+    
+    # the metric we used here is cosine, the coside distance is mesured as K(X, Y) = <X, Y> / (||X||*||Y||)
+    cosine_sim=cosine_similarity(X_tfidf_w2v,X_tfidf_w2v[prod_index])
+    
+    # np.argsort will return indices of the nearest products 
+    indices = np.argsort(cosine_sim.flatten())[-num_results:-1]
+    # -1 given to exclude the searched product itself from showing in recommendations as cosinine similarity will be 1 for same product
+    # flipping the indices so that the product with more similarity is shown first
+    # argsort will do sorting of indices from smallest to largest value
+    indices=np.flip(indices)
+    #psimilarity will store the similarity 
+    psimilarity  = np.sort(cosine_sim.flatten())[-num_results:-1]
+    psimilarity = np.flip(psimilarity)
+    
+    df=data[['product','discount_%']].loc[indices]
+    df['discount_%']=df['discount_%']*0.5/100 # multiplied by 0.5 to give half weightage to discount % and divided by 100 to convert 
+    # percentage to decimal
+    df['similarity']=psimilarity.tolist() # adding similarity scores as s new column to df
+    
+    df['rank_score']= df['discount_%']+df['similarity'] # creating rank score by adding similarity and discount
+    
+    df=df.sort_values(by='rank_score',ascending=False)
+    
+    index=list(df.index) # getting indices of similar products to fetch them from main data
+    
+    return data.loc[index,['product','sale_price']] # returns product title and sale price of similar products
+
+selected_product=st.selectbox("Type or select product from dropdown",data['product'].values)
+
+prod_index=data.index
+
+if st.button
+
+
+    
 
 
 
