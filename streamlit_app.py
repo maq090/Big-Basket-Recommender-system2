@@ -56,33 +56,36 @@ brand_ohe=ohe(data['brand'].values)
 
 type_ohe=ohe(data['type'].values)
 
-@st.cache(ttl=168*3600)
+@st.cache
 def tfidf_w2v(feature):
-    """to get tfidf weighted w2v for product featue(text data) and returns a list of tfidf-w2v for product title"""
+    """to get tfidf for product featue(text data) and returns a list of tfidf for product title"""
     tfidf_vectorizer = TfidfVectorizer()
     tfidf_product = tfidf_vectorizer.fit_transform(feature)
     
     # we are converting a dictionary with word as a key, and the idf as a value
     dictionary = dict(zip(tfidf_vectorizer.get_feature_names(), list(tfidf_vectorizer.idf_)))
     tfidf_words = set(tfidf_vectorizer.get_feature_names())
-    
-    product_tfidf_w2v_vectors = []; # the avg-w2v for each product is stored in this list
-    for product in (feature): # for each product title
-        vector = np.zeros(300) # as word vectors are of zero length
-        tf_idf_weight =0; # num of words with a valid vector in the product
-        for word in product.split(): # for each word in product title
-            if (word in glove_words) and (word in tfidf_words):
-                vec = model[word] # getting the vector for each word
+    return dictionary,tfidf_words
+
+dictionary,tfidf_words=tfidf_w2v(data['product'])
+
+product_tfidf_w2v_vectors = []; # the avg-w2v for each product is stored in this list
+for product in (data['product']): # for each product title
+    vector = np.zeros(300) # as word vectors are of zero length
+    tf_idf_weight =0; # num of words with a valid vector in the product
+    for word in product.split(): # for each word in product title
+        if (word in glove_words) and (word in tfidf_words):
+            vec = model[word] # getting the vector for each word
                 # here we are multiplying idf value(dictionary[word]) and the tf value((product.count(word)/len(product.split())))
-                tf_idf = dictionary[word]*(product.count(word)/len(product.split())) # getting the tfidf value for each word
-                vector += (vec * tf_idf) # calculating tfidf weighted w2v
-                tf_idf_weight += tf_idf
+            tf_idf = dictionary[word]*(product.count(word)/len(product.split())) # getting the tfidf value for each word
+            vector += (vec * tf_idf) # calculating tfidf weighted w2v
+            tf_idf_weight += tf_idf
         if tf_idf_weight != 0:
             vector /= tf_idf_weight
         product_tfidf_w2v_vectors.append(vector)
-    return product_tfidf_w2v_vectors
+  
 
-product_tfidf_w2v_vectors=tfidf_w2v(data['product'])
+
 
 #stacking all vectorized features for computing cosine similarity
 X_tfidf_w2v = hstack ((product_tfidf_w2v_vectors,category_ohe,sub_category_ohe,brand_ohe,type_ohe,data['sale_price'].values.reshape(-1,1), \
