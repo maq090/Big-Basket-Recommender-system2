@@ -82,7 +82,7 @@ for product in (data['product']): # for each product title
             tf_idf_weight += tf_idf
         if tf_idf_weight != 0:
             vector /= tf_idf_weight
-        product_tfidf_w2v_vectors.append(vector)
+    product_tfidf_w2v_vectors.append(vector)
   
 
 
