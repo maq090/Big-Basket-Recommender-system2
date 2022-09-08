@@ -17,13 +17,6 @@ st.set_page_config(page_title="Big Basket Product Recommendation System",page_ic
 
 st.title('Big Basket Product Recommendation System')
 
-
-st.markdown(div.stButton > button:first-child {
-background-color: #00cc00;color:white;font-size:20px;height:3em;width:30em;border-radius:10px 10px 10px 10px;
-}
-,unsafe_allow_html=True)
-
-
 @st.cache
 def load_data(filename):
     """ function to load data"""
@@ -128,7 +121,7 @@ selected_product=st.selectbox("Type or select product from dropdown",data['produ
 
 prod_index=int(data[data['product']==selected_product].index.values[0])
             
-if st.button("Show Similar Products"):
+if st.button("Click here for Similar Products"):
     st.subheader("Similar Products for :" +data['product'].loc[prod_index])
     similar_products=get_similar(prod_index) # num_results argument not passed as it is given a default value in function
     st.dataframe(similar_products)
