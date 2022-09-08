@@ -29,15 +29,10 @@ data=load_data(file)
 #loading the glove_vector file which is in zipped form
 # used gzip form 
 #https://stackoverflow.com/questions/24906126/how-to-unpack-pkl-file
-@st.cache(ttl=168*3600)
-def loadglove(name):
-    """ function to laod glove vector file")"""
-    with gzip.open(name,'rb') as f:
-        model=pickle.load(f)
-        return model
 
-file='glove_vectors.pkl.gz'                  
-model=loadglove(file)
+with gzip.open('glove_vectors.pkl.gz' ,'rb') as f:
+    model=pickle.load(f)
+    
 glove_words=set(model.keys())
 
 # Featurization of categorical and text features
@@ -56,19 +51,15 @@ brand_ohe=ohe(data['brand'].values)
 
 type_ohe=ohe(data['type'].values)
 
-@st.cache
-def tfidf_w2v(feature):
-    """to get tfidf for product featue(text data) and returns a list of tfidf for product title"""
-    tfidf_vectorizer = TfidfVectorizer()
-    tfidf_product = tfidf_vectorizer.fit_transform(feature)
+
+#to get tfidf for product featue(text data) and returns a list of tfidf for product title
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_product = tfidf_vectorizer.fit_transform(data['product'])
     
-    # we are converting a dictionary with word as a key, and the idf as a value
-    dictionary = dict(zip(tfidf_vectorizer.get_feature_names(), list(tfidf_vectorizer.idf_)))
-    tfidf_words = set(tfidf_vectorizer.get_feature_names())
-    return dictionary,tfidf_words
-
-dictionary,tfidf_words=tfidf_w2v(data['product'])
-
+# we are converting a dictionary with word as a key, and the idf as a value
+dictionary = dict(zip(tfidf_vectorizer.get_feature_names(), list(tfidf_vectorizer.idf_)))
+tfidf_words = set(tfidf_vectorizer.get_feature_names())
+    
 product_tfidf_w2v_vectors = []; # the avg-w2v for each product is stored in this list
 for product in (data['product']): # for each product title
     vector = np.zeros(300) # as word vectors are of zero length
