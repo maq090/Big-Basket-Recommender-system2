@@ -11,8 +11,8 @@ from scipy.sparse import hstack
 import pickle
 from scipy.sparse import hstack
 
-st.set_page_config(page_title="Big Basket Product Recommendation System",page_icon="logo.png",layout="wide")
+st.set_page_config(page_title="Big Basket Product Recommendation System",page_icon="logo.png",layout="centered")
 
-data=pd.read_csv('preprocessed_with_clusterlabel.csv')
+#data=pd.read_csv('preprocessed_with_clusterlabel.csv')
 st.title('Big Basket Product Recommendation System')
-st.write(data)
+#st.write(data)
