@@ -18,13 +18,12 @@ st.set_page_config(page_title="Big Basket Product Recommendation System",page_ic
 st.title('Big Basket Product Recommendation System')
 
 
-st.markdown(""" div.stButton > button:first-child {
+st.markdown(div.stButton > button:first-child {
 background-color: #00cc00;color:white;font-size:20px;height:3em;width:30em;border-radius:10px 10px 10px 10px;
 }
-“”", unsafe_allow_html=True)
+,unsafe_allow_html=True)
 
-if st.button(“the notice you want to show”):
-st.write(“content you want to show”)
+
 @st.cache
 def load_data(filename):
     """ function to load data"""
