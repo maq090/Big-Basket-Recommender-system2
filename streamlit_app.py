@@ -13,6 +13,6 @@ from scipy.sparse import hstack
 
 st.set_page_config(page_title="Big Basket Product Recommendation System",page_icon="logo.png",layout="wide")
 
-data=pd.read_csv('preprocessed_with_cluster_label.csv')
+data=pd.read_csv('preprocessed_with_clusterlabel.csv')
 st.title('Big Basket Product Recommendation System')
 st.write(data)
