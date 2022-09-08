@@ -92,7 +92,7 @@ X_tfidf_w2v = hstack ((product_tfidf_w2v_vectors,category_ohe,sub_category_ohe,b
 #defining main function to get similar products
 
 @st.cache
-def get_similar(prod_index,num_results):
+def get_similar(prod_index,num_results=11):
     # prod_index: product index in the given data
     # num_results: number of similar products to show
     
@@ -122,11 +122,15 @@ def get_similar(prod_index,num_results):
     
     return data.loc[index,['product','sale_price']] # returns product title and sale price of similar products
 
+# button to select a product
 selected_product=st.selectbox("Type or select product from dropdown",data['product'].values)
 
-prod_index=data.index
+prod_index=int(data[data['product']==selected_product].index.values[0]
 
-if st.button
+if st.button('Show Similar Products):
+    st.subheader("Similar Products for :" +data['product'].loc[prod_index])
+    similar_products=get_similar(prod_index): # num_results argument not passed as it is given a default value in function
+    st.dataframe(similar_products)
 
 
     
