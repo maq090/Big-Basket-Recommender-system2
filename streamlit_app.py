@@ -29,7 +29,7 @@ data=load_data(file)
 #loading the glove_vector file which is in zipped form
 # used gzip form 
 #https://stackoverflow.com/questions/24906126/how-to-unpack-pkl-file
-@st.cache
+@st.cache(ttl=168*3600)
 def loadglove(name):
     """ function to laod glove vector file")"""
     with gzip.open(name,'rb') as f:
@@ -56,7 +56,7 @@ brand_ohe=ohe(data['brand'].values)
 
 type_ohe=ohe(data['type'].values)
 
-@st.cache
+@st.cache(ttl=168*3600)
 def tfidf_w2v(feature):
     """to get tfidf weighted w2v for product featue(text data) and returns a list of tfidf-w2v for product title"""
     tfidf_vectorizer = TfidfVectorizer()
@@ -120,7 +120,7 @@ def get_similar(prod_index,num_results=11):
     
     index=list(df.index) # getting indices of similar products to fetch them from main data
     
-    return data.loc[index,['product','sale_price']].drop(index) # returns product title and sale price of similar products
+    return data.loc[index,['product','sale_price']] # returns product title and sale price of similar products
 
 # button to select a product
 selected_product=st.selectbox("Type or select product from dropdown",data['product'].values)
