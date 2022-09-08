@@ -120,7 +120,7 @@ def get_similar(prod_index,num_results=11):
     
     index=list(df.index) # getting indices of similar products to fetch them from main data
     
-    return data.loc[index,['product','sale_price']] # returns product title and sale price of similar products
+    return data.loc[index,['product','sale_price']].drop(index) # returns product title and sale price of similar products
 
 # button to select a product
 selected_product=st.selectbox("Type or select product from dropdown",data['product'].values)
