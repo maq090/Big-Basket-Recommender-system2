@@ -133,9 +133,3 @@ if st.button('Show Similar Products'):
     st.dataframe(similar_products)
 
 
-    
-
-
-
-
-
