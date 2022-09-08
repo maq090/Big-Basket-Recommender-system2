@@ -10,6 +10,7 @@ from sklearn.metrics import pairwise_distances
 from scipy.sparse import hstack
 import pickle
 from scipy.sparse import hstack
+from pyunpack import Archive
 
 st.set_page_config(page_title="Big Basket Product Recommendation System",page_icon="logo.png",layout="wide")
 
@@ -25,5 +26,9 @@ file='preprocessed_with_clusterlabel.csv'
 data=load_data(file)
 
 #loading the glove_vector file which is in zipped form
+# used gzip form 
 
-glovefile='glove_vectors.7z'
+
+
+
+
