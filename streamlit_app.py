@@ -32,7 +32,7 @@ data=load_data(file)
 @st.cache
 def loadglove(name):
     """ function to laod glove vector file")"""
-    with gzip.open(name,'rb,) as f:
+    with gzip.open(name,'rb') as f:
         model=pickle.load(f)
         return model
 file='glove_vectors.pkl.gz'                  
