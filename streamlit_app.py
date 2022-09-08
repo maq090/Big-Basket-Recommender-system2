@@ -126,8 +126,7 @@ def get_similar(prod_index,num_results=11):
 selected_product=st.selectbox("Type or select product from dropdown",data['product'].values)
 
 prod_index=int(data[data['product']==selected_product].index.values[0]
-
-if st.button('Show Similar Products'):
+if st.button("Show Similar Products"):
     st.subheader("Similar Products for :" +data['product'].loc[prod_index])
     similar_products=get_similar(prod_index): # num_results argument not passed as it is given a default value in function
     st.dataframe(similar_products)
