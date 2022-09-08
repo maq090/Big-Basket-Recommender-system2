@@ -11,8 +11,19 @@ from scipy.sparse import hstack
 import pickle
 from scipy.sparse import hstack
 
-st.set_page_config(page_title="Big Basket Product Recommendation System",page_icon="logo.png",layout="centered")
+st.set_page_config(page_title="Big Basket Product Recommendation System",page_icon="logo.png",layout="wide")
 
-#data=pd.read_csv('preprocessed_with_clusterlabel.csv')
 st.title('Big Basket Product Recommendation System')
-#st.write(data)
+
+@st.cache
+def load_data(filename):
+    """ function to load data"""
+    data=pd.read_csv(filename)
+    return data
+  
+file='preprocessed_with_clusterlabel.csv'
+data=load_data(file)
+
+#loading the glove_vector file which is in zipped form
+
+glovefile='glove_vectors.7z'
