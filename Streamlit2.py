@@ -14,7 +14,6 @@ import re
 from sklearn.preprocessing import MinMaxScaler
 import sys
 from sklearn.preprocessing import LabelEncoder
-from PIL import image
 
 st.set_page_config(page_title="Big Basket Product Recommendation System",page_icon="logo.png",layout="wide")
 
@@ -318,10 +317,10 @@ def get_similar_products(query,train_data=df,X_train=X_train,num_results=11):
         print('Please check query point for any missing or incomplete information')
 
 
-image=Image.open('demo.png') # sample data point image 
+#image=Image.open('demo.png') # sample data point image 
 # file uploader to upload query datapoint, single point at a time
 uploaded_file=st.file_uploader('Upload csv file of query product with all columns')
-st.image(image, caption='Sample datapoint')
+#st.image(image, caption='Sample datapoint')
 
 if uploaded_file is not None:
     query=pd.read_csv(uploaded_file)
