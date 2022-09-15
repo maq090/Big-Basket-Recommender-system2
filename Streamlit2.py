@@ -26,14 +26,9 @@ stop_words = set(stopwords.words('english'))
 # computing sentiment score for description feature
 nltk.download('vader_lexicon')
 
-@st.cache(allow_output_mutation=True)
-def load_data(filename):
-    """ function to load data"""
-    data=pd.read_csv(filename)
-    return data
 
-file='train_preprocessed_with_clusterlabels.csv'
-df=load_data(file)
+df=pd.read_csv('train_preprocessed_with_clusterlabels.csv') # loading preprocessed data
+
 
 #loading the glove_vector file which is in zipped form
 # used gzip form 
@@ -300,7 +295,7 @@ def get_similar_products(query,train_data=df,X_train=X_train,num_results=11):
             # flipping the indices so that the product with more similarity is shown first
             # argsort will do sorting of indices from smallest to largest value
             indices=np.flip(indices)
-            #psimilarity will store the similarity 
+            ##psimilarity will store the similarity 
             psimilarity  = np.sort(cosine_sim.flatten())[-num_results:-1]
             psimilarity = np.flip(psimilarity)
         
