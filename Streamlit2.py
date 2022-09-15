@@ -315,7 +315,7 @@ if uploaded_file is not None:
     query=pd.read_csv(uploaded_file)
     if missing_features(query):
         if st.button("Explore more for Similar Products"):
-            st.subheader('Top '+str(num_results-1)+' Similar products for "'+'\033[1m'+query['product'].values[0]+'\033[0m' +'" are:')
+            st.subheader('Top '+str(num_results-1)+' Similar products for "'+**query['product'].values[0]**+'" are:')
             similar_products=get_similar_products(query)
             st.dataframe(similar_products)
         
