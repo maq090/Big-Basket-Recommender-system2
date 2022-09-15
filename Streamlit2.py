@@ -329,7 +329,7 @@ if uploaded_file is not None:
 num_results=11
 if missing_features(query):
     if st.button("Explore more for Similar Products"):
-        st.subheader('Top '+str(num_results-1)+' Similar products for "'+'\033[1m'+query['product'].values[0]+'\033[0m' +'" are:'
+        st.subheader('Top '+str(num_results-1)+' Similar products for "'+'\033[1m'+query['product'].values[0]+'\033[0m' +'" are:')
         similar_products=get_similar_products(query)
         st.dataframe(similar_products)
         
