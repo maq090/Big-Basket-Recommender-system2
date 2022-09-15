@@ -322,14 +322,13 @@ def get_similar_products(query,train_data=df,X_train=X_train,num_results=11):
 uploaded_file=st.file_uploader('Upload csv file of query product with all columns')
 #st.image(image, caption='Sample datapoint')
 
+num_results=11
 if uploaded_file is not None:
     query=pd.read_csv(uploaded_file)
-
-num_results=11
-if missing_features(query):
-    if st.button("Explore more for Similar Products"):
-        st.subheader('Top '+str(num_results-1)+' Similar products for "'+'\033[1m'+query['product'].values[0]+'\033[0m' +'" are:')
-        similar_products=get_similar_products(query)
-        st.dataframe(similar_products)
+    if missing_features(query):
+        if st.button("Explore more for Similar Products"):
+            st.subheader('Top '+str(num_results-1)+' Similar products for "'+'\033[1m'+query['product'].values[0]+'\033[0m' +'" are:')
+            similar_products=get_similar_products(query)
+            st.dataframe(similar_products)
         
     
