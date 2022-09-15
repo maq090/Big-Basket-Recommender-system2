@@ -34,16 +34,9 @@ df=pd.read_csv('train_preprocessed_with_clusterlabels.csv') # loading preprocess
 # used gzip form 
 #https://stackoverflow.com/questions/24906126/how-to-unpack-pkl-file
 
-@st.cache
-def load_picklezip(file1):
-    """ to load pickle file"""
-    with gzip.open(file1 ,'rb') as f:
-        model=pickle.load(f)
-        return model
-file1= 'glove_vectors.pkl.gz' 
-
-glove_model=load_picklezip(file1)
-glove_words=set(glove_model.keys())
+with gzip.open('glove_vectors.pkl.gz' ,'rb') as f:
+    model=pickle.load(f)
+    glove_words=set(model.keys())
 
 # tfidf vectorizer
 tfidf=TfidfVectorizer()
