@@ -101,3 +101,4 @@ zipp==3.8.1
 pyunpack
 patool
 nltk
+PIL
