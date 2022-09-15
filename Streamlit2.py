@@ -40,14 +40,14 @@ df=load_data(file)
 #https://stackoverflow.com/questions/24906126/how-to-unpack-pkl-file
 
 @st.cache
-def load_picklezip(file):
+def load_picklezip(file1):
     """ to load pickle file"""
     with gzip.open(file ,'rb') as f:
         model=pickle.load(f)
         return model
-file= 'glove_vectors.pkl.gz' 
+file1= 'glove_vectors.pkl.gz' 
 
-glove_model=load_picklezip(file)
+glove_model=load_picklezip(file1)
 glove_words=set(glove_model.keys())
 
 # tfidf vectorizer
@@ -58,7 +58,7 @@ tfidf_description=tfidf.fit_transform(df['description'])
 dictionary = dict(zip(tfidf.get_feature_names(), list(tfidf.idf_)))
 tfidf_words = set(tfidf.get_feature_names())
 
-@st.cache
+
 # function to label encode categorical columns
 def label_encode_columns(df, columns, encoders=None):
     if encoders is None:
