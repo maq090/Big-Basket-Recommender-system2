@@ -4,10 +4,10 @@ import numpy as np
 import pickle
 import gzip
 import warnings
+import nltk
 warnings.filterwarnings("ignore")
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity  
 import re
