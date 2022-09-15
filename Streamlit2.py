@@ -42,7 +42,7 @@ df=load_data(file)
 @st.cache
 def load_picklezip(file1):
     """ to load pickle file"""
-    with gzip.open(file ,'rb') as f:
+    with gzip.open(file1 ,'rb') as f:
         model=pickle.load(f)
         return model
 file1= 'glove_vectors.pkl.gz' 
