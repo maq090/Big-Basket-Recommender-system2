@@ -14,6 +14,7 @@ import re
 from sklearn.preprocessing import MinMaxScaler
 import sys
 from sklearn.preprocessing import LabelEncoder
+from PIL import Image
 
 st.set_page_config(page_title="Big Basket Product Recommendation System",page_icon="logo.png",layout="wide")
 
@@ -311,6 +312,8 @@ uploaded_file=st.file_uploader('Upload csv file of query product with all column
 #st.image(image, caption='Sample datapoint')
 
 num_results=11
+image=Image.open('demo.png')
+st.image(image,caption="sample data point")
 if uploaded_file is not None:
     query=pd.read_csv(uploaded_file)
     if missing_features(query):
