@@ -95,7 +95,7 @@ def missing_features(data):
     
    # first to check whether the data has the 8 listed columns[category,sub_category,brand,type,description,sale_price,market_price]
    # to check for any missing values
-    if(data.shape[1]<7) or data.pd.isnull().any().any():
+    if(data.shape[1]<7) or data.isna().any().any():
         st.write('Please check datapoint\n')
         st.write('The data has missing values in'+ str(list(data.columns[data.isna().any()]))+ 'columns')
         
