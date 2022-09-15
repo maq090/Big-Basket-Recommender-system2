@@ -114,16 +114,16 @@ def salepricecheck(data,train_data):
             if minimum <= float(data['sale_price'].values[0]) <= maximum:
                 return True
             else:
-                st.write('The sale_price of query product is not in range of other products in same brand,Check sale_price')
+                st.write('Warning: The sale_price of query product is not in range of other products in same brand,Check sale_price')
                 return False
         else:
             if sale_price_minima <= float(data['sale_price'].values[0]) <= sale_price_maxima: # if brand is not available then will see in whole             #train data
                 return True
             else:
-                st.write('The sale_price of query product is not in range of train data products,please check sale_price')
+                st.write('Warning:The sale_price of query product is not in range of train data products,please check sale_price')
                 return False
     else:
-        st.write('No sale_price for query product given')    
+        st.write('Error:No sale_price for query product given')    
         return False
     
  
@@ -302,7 +302,7 @@ def get_similar_products(query,train_data=df,X_train=X_train,num_results=11):
             
             return train_data.loc[index,['product']]
     else:
-        print('Please check query point for any missing or incomplete information')
+        print('Warning:Please check query point for any missing or incomplete information')
 
 
 #image=Image.open('demo.png') # sample data point image 
@@ -318,5 +318,6 @@ if uploaded_file is not None:
             st.subheader('The queried product is:'+query['product'].values[0])
             similar_products=get_similar_products(query)
             st.dataframe(similar_products)
+            st.write('Clear the upload and input new datapoint to check for new product')
         
     
