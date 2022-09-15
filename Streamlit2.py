@@ -138,10 +138,10 @@ def salepricecheck(data,train_data):
     else:
         st.write('No sale_price for query product given')    
         return False
+    
  
-# function to get sentiment scores 
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 def get_scores(data):
     """retuens sentiment analysis scores for description feature"""
     sia=SentimentIntensityAnalyzer()
