@@ -317,11 +317,10 @@ num_results=11
 if uploaded_file is not None:
     query=pd.read_csv(uploaded_file)
     if missing_features(query):
-        if salepricecheck(query,df):
-            if st.button("Explore more for Similar Products"):
-                st.subheader('The queried product is:'+query['product'].values[0])
-                similar_products=get_similar_products(query)
-                st.dataframe(similar_products)
-                st.caption('Clear the upload and input new datapoint to check for new product')
+        if st.button("Explore more for Similar Products"):
+            st.subheader('The queried product is:'+query['product'].values[0])
+            similar_products=get_similar_products(query)
+            st.dataframe(similar_products)
+            st.caption('Clear the upload and input new datapoint to check for new product')
         
     
