@@ -26,7 +26,7 @@ stop_words = set(stopwords.words('english'))
 # computing sentiment score for description feature
 nltk.download('vader_lexicon')
 
-@st.cache
+@st.cache(allow_output_mutation=True)
 def load_data(filename):
     """ function to load data"""
     data=pd.read_csv(filename)
