@@ -80,7 +80,7 @@ def label_encode_columns(df, columns, encoders=None):
     return df, encoders
 
 columns=['category', 'sub_category', 'brand', 'type']
-df, le_for_test=label_encode_columns(df, columns, encoders=None)
+df, le_for_test=label_encode_columns(df, columns)
 
 @st.cache
 def loadpickle(filename):
@@ -255,7 +255,7 @@ def get_similar_products(query,train_data=df,X_train=X_train,num_results=11):
         
         # encoding categorical features category,sub_category,brand,type
         columns=['category', 'sub_category', 'brand', 'type']
-        query, encoders=label_encode_columns(query, columns, le_for_test) # using encoders =encoders got by fitting on
+        query, encoders1=label_encode_columns(query, columns, le_for_test) # using encoders =encoders got by fitting on
         
         if salepricecheck(query,train_data):
             # preprocessing description
