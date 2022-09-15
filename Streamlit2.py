@@ -310,7 +310,7 @@ def get_similar_products(query,train_data=df,X_train=X_train,num_results=11):
 # file uploader to upload query datapoint, single point at a time
 image=Image.open('demo.png')
 st.image(image,caption="sample data point to upload")
-uploaded_file=st.file_uploader('Upload csv file of query product with all columns')
+uploaded_file=st.file_uploader('Upload csv file of single query product at a time with all columns')
 #st.image(image, caption='Sample datapoint')
 
 num_results=11
