@@ -293,7 +293,7 @@ def get_similar_products(query,train_data=df,X_train=X_train,num_results=11):
             psimilarity = np.flip(psimilarity)
         
             
-            st.write('\nTop '+str(num_results-1)+' Similar products for "'+query['product'].values[0]+'" are:')
+            st.write('\nTop '+str(num_results-1)+' Similar products for "'+**query['product'].values[0]**+'" are:')
             
             data=train_data[['product','discount_%']].loc[indices]
             data['similarity']=psimilarity.tolist() # adding similarity scores as a new column to data
@@ -315,7 +315,7 @@ if uploaded_file is not None:
     query=pd.read_csv(uploaded_file)
     if missing_features(query):
         if st.button("Explore more for Similar Products"):
-            st.subheader('Top '+str(num_results-1)+' Similar products for "'+query['product'].values[0]+'" are:')
+            st.subheader('The queried product is:'+query['product'].values[0])
             similar_products=get_similar_products(query)
             st.dataframe(similar_products)
         
