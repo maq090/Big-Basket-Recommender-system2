@@ -100,3 +100,4 @@ widgetsnbextension==3.6.1
 zipp==3.8.1
 pyunpack
 patool
+nltk
