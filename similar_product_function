@@ -1,0 +1,82 @@
+def get_similar_products(query,train_data,X_train=X_train,num_results=11):
+    """function to give similar products from train_data for query product """
+    
+    # query: query product
+    # train_data: preprocessed train data with all features
+    #X_train: matrix to compute cosine similarity
+    # num_results: number of similar products to show
+    
+    if missing_features(query):
+        
+        # preprocessing categorical columns
+        query[['category','sub_category','brand','type']]=query[['category','sub_category','brand','type']].apply(categorical_preprocess)
+        
+        # encoding categorical features category,sub_category,brand,type
+        columns=['category', 'sub_category', 'brand', 'type']
+        query, encoders=label_encode_columns(query, columns, le_for_test) # using encoders =encoders got by fitting on
+        
+        if salepricecheck(query,train_data):
+            # preprocessing description
+            query['description']=preprocess_description(query['description'].values)
+        
+            #calculating discount_%
+            if 'discount_%' not in query.columns:
+                query['discount_%']=(query['market_price']-query['sale_price'])/query['market_price']
+        
+            query=get_scores(query) # to get sentiment scores
+        
+            # scaling sale price
+            scaler = MinMaxScaler()
+            scaler.fit(train_data['sale_price'].values.reshape(-1,1))
+            query['sale_price_scaled']=scaler.transform(query['sale_price'].values.reshape(-1,1))
+        
+            # to get cluster label
+            X_q=np.hstack((query['sale_price_scaled'].values.reshape(-1,1),query['discount_%'].values.reshape(-1,1), \
+                           query['negative'].values.reshape(-1,1),query['neutral'].values.reshape(-1,1), \
+                           query['positive'].values.reshape(-1,1),query['compound'].values.reshape(-1,1)))
+        
+            query['cluster_label']=get_clusterlabel(X_q) # function to classify item to nearest means(cluster_centres)
+        
+            tfidf_w2v_vector=get_tfidf_w2v(query) # function to vectorize description text after preprocessing
+        
+            
+            # stacking all values
+            #https://numpy.org/doc/stable/reference/generated/numpy.concatenate.html#numpy.concatenate
+            X=np.hstack((tfidf_w2v_vector,query['category'].values.reshape(-1,1),query['sub_category'].values.reshape(-1,1), \
+                         query['brand'].values.reshape(-1,1),query['type'].values.reshape(-1,1), \
+                         query['sale_price_scaled'].values.reshape(-1,1),query['discount_%'].values.reshape(-1,1), \
+                         query['negative'].values.reshape(-1,1),query['neutral'].values.reshape(-1,1), \
+                         query['positive'].values.reshape(-1,1),query['compound'].values.reshape(-1,1), \
+                         query['cluster_label'].values.reshape(-1,1)))
+        
+            # till now we have preprocessed and vectorized query product
+            # now will compute cosine similarities and suggest similar products based on cosine similarity
+            cosine_sim=cosine_similarity(X_train,X)
+            # np.argsort will return indices of the nearest products 
+            indices = np.argsort(cosine_sim.flatten())[-num_results:-1]
+            # -1 given to exclude the searched product itself from showing in recommendations as cosinine similarity will be 1 for same product
+            # flipping the indices so that the product with more similarity is shown first
+            # argsort will do sorting of indices from smallest to largest value
+            indices=np.flip(indices)
+            #psimilarity will store the similarity 
+            psimilarity  = np.sort(cosine_sim.flatten())[-num_results:-1]
+            psimilarity = np.flip(psimilarity)
+        
+            print('The searched/Queried product is:\n',query['product'].values[0])
+            print('\nTop '+str(num_results-1)+' Similar products for "'+'\033[1m'+query['product'].values[0]+'\033[0m' +'" are:')
+            print("="*70,'\n')
+        
+            data=train_data[['product','discount_%']].loc[indices]
+            data['similarity']=psimilarity.tolist() # adding similarity scores as a new column to data
+           
+            lst=[] # list to store indices after sorting
+            for ind in data.index:
+                lst.append(ind)
+                print(ind,":",data['product'][ind])
+                print('Cosine Similarity with queried product is :',np.round(data['similarity'][ind],6))
+                print('Discount %: ',np.round(data['discount_%'][ind])) # restoring discount to original scale 
+                print('-'*50,'\n')
+            
+            return train_data.loc[lst]
+    else:
+        print('Please check query point for any missing or incomplete information')
